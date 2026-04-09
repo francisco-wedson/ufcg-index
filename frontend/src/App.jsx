@@ -16,7 +16,7 @@ function App() {
     setPeriods([...periods, newPeriod]);
   };
 
-  const updatePeriodName = (id, newName) => {
+  const renamePeriod = (id, newName) => {
     const updatedPeriods = periods.map((period) =>
       period.id === id ? { ...period, name: newName } : period,
     );
@@ -39,11 +39,82 @@ function App() {
 
     const updatedPeriods = periods.map((period) =>
       period.id === id
-        ? { ...period, subjects: [...period.subects, newSubject] }
+        ? { ...period, subjects: [...period.subjects, newSubject] }
         : period,
     );
 
     setPeriods(updatedPeriods);
+  };
+
+  const renameSubject = (subjectId, newName, periodId) => {
+    const updatedPeriods = periods.map((period) =>
+      period.id === periodId
+        ? {
+            ...period,
+            subjects: period.subjects.map((subject) =>
+              subject.id === subjectId
+                ? { ...subject, name: newName }
+                : subject,
+            ),
+          }
+        : period,
+    );
+
+    setPeriods(updatedPeriods);
+  };
+
+  const removeSubject = (subjectId, periodId) => {
+    const updatedPeriods = periods.map((period) =>
+      period.id === periodId
+        ? {
+            ...period,
+            subjects: period.subjects.filter(
+              (subject) => subject.id !== subjectId,
+            ),
+          }
+        : period,
+    );
+
+    setPeriods(updatedPeriods);
+  };
+
+  const addGrade = (subjectId, periodId) => {
+    const newGrade = {
+      id: Date.now(),
+      name: "Nova nota",
+      value: 0.0,
+      weight: 1.0,
+    };
+
+    const updatedPeriods = periods.map((period) =>
+      period.id === periodId
+        ? {
+            ...period,
+            subjects: period.subjects.map((subject) =>
+              subject.id === subjectId
+                ? { ...subject, grades: [...subject.grades, newGrade] }
+                : subject,
+            ),
+          }
+        : period,
+    );
+
+    setPeriods(updatedPeriods);
+  };
+
+  const periodActions = {
+    rename: renamePeriod,
+    remove: removePeriod,
+  };
+
+  const subjectActions = {
+    add: addSubject,
+    rename: renameSubject,
+    remove: removeSubject,
+  };
+
+  const gradeActions = {
+    add: addGrade,
   };
 
   return (
@@ -55,9 +126,9 @@ function App() {
         <PeriodCard
           key={period.id}
           period={period}
-          onUpdatePeriodName={updatePeriodName}
-          onRemovePeriod={removePeriod}
-          onAddSubject={addSubject}
+          periodActions={periodActions}
+          subjectActions={subjectActions}
+          gradeActions={gradeActions}
         />
       ))}
     </>

@@ -1,10 +1,11 @@
 import { useState } from "react";
+import SubjectCard from "./SubjectCard";
 
 const PeriodCard = ({
   period,
-  onUpdatePeriodName,
-  onRemovePeriod,
-  onAddSubject,
+  periodActions,
+  subjectActions,
+  gradeActions,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -13,7 +14,7 @@ const PeriodCard = ({
       <input
         type="text"
         value={period.name}
-        onChange={(e) => onUpdatePeriodName(period.id, e.target.value)}
+        onChange={(e) => periodActions.rename(period.id, e.target.value)}
       />
       <button
         onClick={() => {
@@ -22,10 +23,20 @@ const PeriodCard = ({
       >
         Mostrar
       </button>
-      <button onClick={() => onRemovePeriod(period.id)}>Remover</button>
+      <button onClick={() => periodActions.remove(period.id)}>Remover</button>
       {isOpen && (
         <div>
-          <button onClick={() => onAddSubject(period.id)}>
+          {period.subjects.map((subject) => (
+            <SubjectCard
+              key={subject.id}
+              subject={subject}
+              onRenameSubject={subjectActions.rename}
+              onRemoveSubject={subjectActions.remove}
+              onAddGrade={gradeActions.add}
+              periodId={period.id}
+            />
+          ))}
+          <button onClick={() => subjectActions.add(period.id)}>
             Adicionar matéria
           </button>
         </div>
