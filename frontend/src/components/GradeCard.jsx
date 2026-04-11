@@ -1,6 +1,14 @@
 import { useState } from "react";
 
-const GradeCard = () => {
+const GradeCard = (
+  grade,
+  onRemoveGrade,
+  onRenameGrade,
+  onChangeWeight,
+  onChangeValue,
+  subjectId,
+  PeriodID,
+) => {
   return <div></div>;
 };
 

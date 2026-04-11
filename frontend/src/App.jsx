@@ -2,131 +2,66 @@ import "./App.css";
 import { useState } from "react";
 import Header from "./components/Header";
 import PeriodCard from "./components/PeriodCard";
+import {
+  addPeriod,
+  renamePeriod,
+  removePeriod,
+  addSubject,
+  renameSubject,
+  removeSubject,
+  addGrade,
+  removeGrade,
+  renameGrade,
+  changeGradeValue,
+  changeGradeWeight,
+} from "./utils/stateActions";
 
 function App() {
   const [periods, setPeriods] = useState([]);
 
-  const addPeriod = () => {
-    const newPeriod = {
-      id: Date.now(),
-      name: `Novo período`,
-      subjects: [],
-    };
-
-    setPeriods([...periods, newPeriod]);
-  };
-
-  const renamePeriod = (id, newName) => {
-    const updatedPeriods = periods.map((period) =>
-      period.id === id ? { ...period, name: newName } : period,
-    );
-
-    setPeriods(updatedPeriods);
-  };
-
-  const removePeriod = (id) => {
-    const updatedPeriods = periods.filter((period) => period.id !== id);
-
-    setPeriods(updatedPeriods);
-  };
-
-  const addSubject = (id) => {
-    const newSubject = {
-      id: Date.now(),
-      name: "Nova matéria",
-      grades: [],
-    };
-
-    const updatedPeriods = periods.map((period) =>
-      period.id === id
-        ? { ...period, subjects: [...period.subjects, newSubject] }
-        : period,
-    );
-
-    setPeriods(updatedPeriods);
-  };
-
-  const renameSubject = (subjectId, newName, periodId) => {
-    const updatedPeriods = periods.map((period) =>
-      period.id === periodId
-        ? {
-            ...period,
-            subjects: period.subjects.map((subject) =>
-              subject.id === subjectId
-                ? { ...subject, name: newName }
-                : subject,
-            ),
-          }
-        : period,
-    );
-
-    setPeriods(updatedPeriods);
-  };
-
-  const removeSubject = (subjectId, periodId) => {
-    const updatedPeriods = periods.map((period) =>
-      period.id === periodId
-        ? {
-            ...period,
-            subjects: period.subjects.filter(
-              (subject) => subject.id !== subjectId,
-            ),
-          }
-        : period,
-    );
-
-    setPeriods(updatedPeriods);
-  };
-
-  const addGrade = (subjectId, periodId) => {
-    const newGrade = {
-      id: Date.now(),
-      name: "Nova nota",
-      value: 0.0,
-      weight: 1.0,
-    };
-
-    const updatedPeriods = periods.map((period) =>
-      period.id === periodId
-        ? {
-            ...period,
-            subjects: period.subjects.map((subject) =>
-              subject.id === subjectId
-                ? { ...subject, grades: [...subject.grades, newGrade] }
-                : subject,
-            ),
-          }
-        : period,
-    );
-
-    setPeriods(updatedPeriods);
-  };
-
   const periodActions = {
-    rename: renamePeriod,
-    remove: removePeriod,
+    add: () => setPeriods(addPeriod(periods)),
+    rename: (periodId, newName) =>
+      setPeriods(renamePeriod(periods, periodId, newName)),
+    remove: (periodId) => setPeriods(removePeriod(periods, periodId)),
   };
 
   const subjectActions = {
-    add: addSubject,
-    rename: renameSubject,
-    remove: removeSubject,
+    add: (periodId) => setPeriods(addSubject(periods, periodId)),
+    rename: (periodId, subjectId, newName) =>
+      setPeriods(renameSubject(periods, periodId, subjectId, newName)),
+    remove: (periodId, subjectId) =>
+      setPeriods(removeSubject(periods, periodId, subjectId)),
   };
 
   const gradeActions = {
-    add: addGrade,
+    add: (periodId, subjectId) =>
+      setPeriods(addGrade(periods, periodId, subjectId)),
+    remove: (periodId, subjectId, gradeId) =>
+      setPeriods(removeGrade(periods, periodId, subjectId, gradeId)),
+    rename: (periodId, subjectId, gradeId, newName) =>
+      setPeriods(renameGrade(periods, periodId, subjectId, gradeId, newName)),
+    changeValue: (periodId, subjectId, gradeId, newValue) =>
+      setPeriods(
+        changeGradeValue(periods, periodId, subjectId, gradeId, newValue),
+      ),
+    changeWeight: (periodId, subjectId, gradeId, newWeight) =>
+      setPeriods(
+        changeGradeWeight(periods, periodId, subjectId, gradeId, newWeight),
+      ),
   };
 
   return (
     <>
       <Header />
-      <button onClick={addPeriod}>Adicionar período</button>
+      <button onClick={periodActions.add}>Adicionar período</button>
 
       {periods.map((period) => (
         <PeriodCard
           key={period.id}
           period={period}
-          periodActions={periodActions}
+          onRenamePeriod={periodActions.rename}
+          onRemovePeriod={periodActions.remove}
           subjectActions={subjectActions}
           gradeActions={gradeActions}
         />
