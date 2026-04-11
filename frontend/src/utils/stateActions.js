@@ -96,7 +96,8 @@ export function changeGradeWeight(
 }
 
 export function removeGrade(periods, periodId, subjectId, gradeId) {
-  return updateSubject(periods, periodId, subjectId, (subject) =>
-    subject.grades.filter((grade) => grade.id !== gradeId),
-  );
+  return updateSubject(periods, periodId, subjectId, (subject) => ({
+    ...subject,
+    grades: subject.grades.filter((grade) => grade.id !== gradeId),
+  }));
 }

@@ -29,9 +29,25 @@ const SubjectCard = ({
       </button>
       {isOpen && (
         <div>
+          <input value={""} readOnly />
+          <input value={"Nota"} readOnly />
+          <input value={"Peso"} readOnly />
           {subject.grades.map((grade) => (
-            <GradeCard />
+            <GradeCard
+              grade={grade}
+              onRemoveGrade={gradeActions.remove}
+              onRenameGrade={gradeActions.rename}
+              onChangeWeight={gradeActions.changeWeight}
+              onChangeValue={gradeActions.changeValue}
+              subjectId={subject.id}
+              periodId={periodId}
+            />
           ))}
+          <div>
+            <button onClick={() => gradeActions.add(periodId, subject.id)}>
+              +
+            </button>
+          </div>
         </div>
       )}
     </div>
