@@ -9,12 +9,15 @@ import {
   addSubject,
   renameSubject,
   removeSubject,
+  changeCreditsSubject,
+  toggleIncludeInMcSubject,
   addGrade,
   removeGrade,
   renameGrade,
   changeGradeValue,
   changeGradeWeight,
 } from "./utils/stateActions";
+import { calculeMc } from "./utils/calculations";
 
 function App() {
   const [periods, setPeriods] = useState([]);
@@ -32,6 +35,12 @@ function App() {
       setPeriods(renameSubject(periods, periodId, subjectId, newName)),
     remove: (periodId, subjectId) =>
       setPeriods(removeSubject(periods, periodId, subjectId)),
+    changeCredits: (periodId, subjectId, newCreditHours) =>
+      setPeriods(
+        changeCreditsSubject(periods, periodId, subjectId, newCreditHours),
+      ),
+    toggleIncludeInMc: (periodId, subjectId) =>
+      setPeriods(toggleIncludeInMcSubject(periods, periodId, subjectId)),
   };
 
   const gradeActions = {
@@ -54,6 +63,7 @@ function App() {
   return (
     <>
       <Header />
+      <h3>MC: {calculeMc(periods).toFixed(2)}</h3>
       <button onClick={periodActions.add}>Adicionar período</button>
 
       {periods.map((period) => (

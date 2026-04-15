@@ -26,6 +26,8 @@ export function addSubject(periods, periodId) {
     id: Date.now(),
     name: "Nova matéria",
     grades: [],
+    credits: 4,
+    includeInMc: true,
   };
 
   return updatePeriod(periods, periodId, (period) => ({
@@ -45,6 +47,25 @@ export function removeSubject(periods, periodId, subjectId) {
   return updatePeriod(periods, periodId, (period) => ({
     ...period,
     subjects: period.subjects.filter((subject) => subject.id !== subjectId),
+  }));
+}
+
+export function changeCreditsSubject(
+  periods,
+  periodId,
+  subjectId,
+  newCreditHours,
+) {
+  return updateSubject(periods, periodId, subjectId, (subject) => ({
+    ...subject,
+    creditHours: newCreditHours,
+  }));
+}
+
+export function toggleIncludeInMcSubject(periods, periodId, subjectId) {
+  return updateSubject(periods, periodId, subjectId, (subject) => ({
+    ...subject,
+    includeInMc: !subject.includeInMc,
   }));
 }
 

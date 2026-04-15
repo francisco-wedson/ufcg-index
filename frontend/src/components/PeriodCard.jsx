@@ -33,6 +33,8 @@ const PeriodCard = ({
               subject={subject}
               onRenameSubject={subjectActions.rename}
               onRemoveSubject={subjectActions.remove}
+              onChangeCredits={subjectActions.changeCredits}
+              onToggleIncludeInMc={subjectActions.toggleIncludeInMc}
               gradeActions={gradeActions}
               periodId={period.id}
             />

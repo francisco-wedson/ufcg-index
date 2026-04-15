@@ -6,6 +6,8 @@ const SubjectCard = ({
   subject,
   onRenameSubject,
   onRemoveSubject,
+  onChangeCredits,
+  onToggleIncludeInMc,
   gradeActions,
   periodId,
 }) => {
@@ -27,6 +29,18 @@ const SubjectCard = ({
       </button>
       <button onClick={() => onRemoveSubject(periodId, subject.id)}>
         Remover
+      </button>
+      <input value={"Créditos"} readOnly />
+      <input
+        type="number"
+        value={subject.credits}
+        onChange={(e) =>
+          onChangeCredits(periodId, subject.id, Number(e.target.value))
+        }
+        step="1"
+      />
+      <button onClick={() => onToggleIncludeInMc(periodId, subject.id)}>
+        {subject.includeInMc ? "Remover do MC" : "Incluir no MC"}
       </button>
       {isOpen && (
         <div>
@@ -50,7 +64,8 @@ const SubjectCard = ({
             </button>
           </div>
           <p style={{ fontSize: "0.8rem" }}>
-            Média: {calculeSubjectAverage(subject.grades).toFixed(2)}
+            Média {subject.name}:{" "}
+            {calculeSubjectAverage(subject.grades).toFixed(1)}
           </p>
         </div>
       )}
