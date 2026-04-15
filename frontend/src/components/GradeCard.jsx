@@ -22,6 +22,7 @@ const GradeCard = ({
         onChange={(e) =>
           onChangeValue(periodId, subjectId, grade.id, Number(e.target.value))
         }
+        step="0.1"
         min="0"
         max="10"
       />

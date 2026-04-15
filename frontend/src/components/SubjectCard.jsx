@@ -1,5 +1,6 @@
 import { useState } from "react";
 import GradeCard from "./GradeCard";
+import { calculeSubjectAverage } from "../utils/calculations";
 
 const SubjectCard = ({
   subject,
@@ -48,6 +49,9 @@ const SubjectCard = ({
               +
             </button>
           </div>
+          <p style={{ fontSize: "0.8rem" }}>
+            Média: {calculeSubjectAverage(subject.grades).toFixed(2)}
+          </p>
         </div>
       )}
     </div>
