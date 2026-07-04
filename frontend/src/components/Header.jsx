@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-const Header = () => {
-  return <h1 className="text-3xl font-bold text-center mt-6">UFCG Index</h1>;
-=======
 import { calculeMc } from "./../utils/calculations";
 
 const Header = ({ periods }) => {
@@ -22,7 +18,6 @@ const Header = ({ periods }) => {
       </div>
     </header>
   );
->>>>>>> e7a2651 (style: change header and page layout)
 };
 
 export default Header;
