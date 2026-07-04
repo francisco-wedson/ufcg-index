@@ -17,7 +17,6 @@ import {
   changeGradeValue,
   changeGradeWeight,
 } from "./utils/stateActions";
-import { calculeMc } from "./utils/calculations";
 
 function App() {
   const [periods, setPeriods] = useState([]);
@@ -61,22 +60,23 @@ function App() {
   };
 
   return (
-    <>
-      <Header />
-      <h3>MC: {calculeMc(periods).toFixed(2)}</h3>
-      <button onClick={periodActions.add}>Adicionar período</button>
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      <main className="min-h-screen max-w-5xl mx-auto">
+        <Header periods={periods} />
+        <button onClick={periodActions.add}>Adicionar período</button>
 
-      {periods.map((period) => (
-        <PeriodCard
-          key={period.id}
-          period={period}
-          onRenamePeriod={periodActions.rename}
-          onRemovePeriod={periodActions.remove}
-          subjectActions={subjectActions}
-          gradeActions={gradeActions}
-        />
-      ))}
-    </>
+        {periods.map((period) => (
+          <PeriodCard
+            key={period.id}
+            period={period}
+            onRenamePeriod={periodActions.rename}
+            onRemovePeriod={periodActions.remove}
+            subjectActions={subjectActions}
+            gradeActions={gradeActions}
+          />
+        ))}
+      </main>
+    </div>
   );
 }
 
