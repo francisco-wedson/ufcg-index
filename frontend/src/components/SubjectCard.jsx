@@ -37,7 +37,7 @@ const SubjectCard = ({
           🗑️
         </button>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
         <span className="">Créditos:</span>
         <input
           className="w-12 border border-zinc-600 rounded px-1"
@@ -58,6 +58,10 @@ const SubjectCard = ({
         >
           {subject.includeInMc ? "Entra no MC" : "Fora do MC"}
         </button>
+        <span className="text-sm">Média</span>
+        <p className="rounded-lg font-bold">
+          {calculeSubjectAverage(subject.grades).toFixed(1)}
+        </p>
       </div>
       {isOpen && (
         <div>
@@ -84,12 +88,6 @@ const SubjectCard = ({
             >
               + Adicionar nota
             </button>
-          </div>
-          <div className="flex justify-center items-center gap-1">
-            <span className="text-sm">Média</span>
-            <p className="rounded-lg px-1 font-bold">
-              {calculeSubjectAverage(subject.grades).toFixed(1)}
-            </p>
           </div>
         </div>
       )}
