@@ -11,37 +11,49 @@ const PeriodCard = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div>
+    <div className="w-full bg-zinc-900 inline-block border border-zinc-700 rounded-xl shadow-lg p-2 space-y-3">
       <input
+        className=" border border-zinc-700 rounded-lg px-1 font-semibold text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
         type="text"
         value={period.name}
         onChange={(e) => onRenamePeriod(period.id, e.target.value)}
       />
       <button
-        onClick={() => {
-          isOpen ? setIsOpen(false) : setIsOpen(true);
-        }}
+        className="px-1 rounded-lg hover:bg-blue-700 transition"
+        onClick={() => setIsOpen(!isOpen)}
       >
-        Mostrar
+        {isOpen ? "▲" : "▼"}
       </button>
-      <button onClick={() => onRemovePeriod(period.id)}>Remover</button>
+      <button
+        className="px-1 rounded-lg hover:bg-red-700 transition"
+        onClick={() => onRemovePeriod(period.id)}
+      >
+        🗑️
+      </button>
       {isOpen && (
         <div>
-          {period.subjects.map((subject) => (
-            <SubjectCard
-              key={subject.id}
-              subject={subject}
-              onRenameSubject={subjectActions.rename}
-              onRemoveSubject={subjectActions.remove}
-              onChangeCredits={subjectActions.changeCredits}
-              onToggleIncludeInMc={subjectActions.toggleIncludeInMc}
-              gradeActions={gradeActions}
-              periodId={period.id}
-            />
-          ))}
-          <button onClick={() => subjectActions.add(period.id)}>
-            Adicionar matéria
-          </button>
+          <div className="flex flex-wrap gap-1">
+            {period.subjects.map((subject) => (
+              <SubjectCard
+                key={subject.id}
+                subject={subject}
+                onRenameSubject={subjectActions.rename}
+                onRemoveSubject={subjectActions.remove}
+                onChangeCredits={subjectActions.changeCredits}
+                onToggleIncludeInMc={subjectActions.toggleIncludeInMc}
+                gradeActions={gradeActions}
+                periodId={period.id}
+              />
+            ))}
+          </div>
+          <div>
+            <button
+              className="px-1 rounded-lg border border-blue-500 hover:bg-blue-500/10 transition"
+              onClick={() => subjectActions.add(period.id)}
+            >
+              Adicionar matéria
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -34,9 +34,9 @@ function App() {
       setPeriods(renameSubject(periods, periodId, subjectId, newName)),
     remove: (periodId, subjectId) =>
       setPeriods(removeSubject(periods, periodId, subjectId)),
-    changeCredits: (periodId, subjectId, newCreditHours) =>
+    changeCredits: (periodId, subjectId, newCredits) =>
       setPeriods(
-        changeCreditsSubject(periods, periodId, subjectId, newCreditHours),
+        changeCreditsSubject(periods, periodId, subjectId, newCredits),
       ),
     toggleIncludeInMc: (periodId, subjectId) =>
       setPeriods(toggleIncludeInMcSubject(periods, periodId, subjectId)),
@@ -63,18 +63,22 @@ function App() {
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <main className="min-h-screen max-w-5xl mx-auto">
         <Header periods={periods} />
-        <button onClick={periodActions.add}>Adicionar período</button>
 
-        {periods.map((period) => (
-          <PeriodCard
-            key={period.id}
-            period={period}
-            onRenamePeriod={periodActions.rename}
-            onRemovePeriod={periodActions.remove}
-            subjectActions={subjectActions}
-            gradeActions={gradeActions}
-          />
-        ))}
+        <div className="py-2 space-y-2">
+          {periods.map((period) => (
+            <PeriodCard
+              key={period.id}
+              period={period}
+              onRenamePeriod={periodActions.rename}
+              onRemovePeriod={periodActions.remove}
+              subjectActions={subjectActions}
+              gradeActions={gradeActions}
+            />
+          ))}
+        </div>
+        <div>
+          <button onClick={periodActions.add}>Adicionar período</button>
+        </div>
       </main>
     </div>
   );
