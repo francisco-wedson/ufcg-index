@@ -50,15 +50,10 @@ export function removeSubject(periods, periodId, subjectId) {
   }));
 }
 
-export function changeCreditsSubject(
-  periods,
-  periodId,
-  subjectId,
-  newCreditHours,
-) {
+export function changeCreditsSubject(periods, periodId, subjectId, newCredits) {
   return updateSubject(periods, periodId, subjectId, (subject) => ({
     ...subject,
-    creditHours: newCreditHours,
+    credits: newCredits,
   }));
 }
 
